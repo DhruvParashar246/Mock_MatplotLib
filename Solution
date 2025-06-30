@@ -1,0 +1,38 @@
+# Line Plot:
+import matplotlib.pyplot as plt
+import pandas as pd
+df = pd.read_csv('travel.csv')
+df = df.groupby('Month').agg({'Travelers': 'sum', 'Revenue': 'sum'}).reset_index()
+df['Revenue'] = df['Revenue']/100
+x = df['Month']
+y = df['Travelers']
+y1 = df['Revenue']
+plt.plot(x,y, label='Travelers')
+plt.plot(x,y1, label = 'Revenue (1/100)')
+plt.xlabel('Months')
+plt.ylabel('Count')
+plt.title('Revenue Per Month (1/100) vs Travelers Per Month')
+plt.legend()
+plt.show()
+
+# Pie Chart:
+df1 = pd.read_csv('travel.csv')
+df1 = df1.groupby('Destination').sum('Travelers').reset_index()
+df1 = df1.sort_values('Travelers', ascending= False)
+df1 = df1.head(5)
+d = df1['Destination']
+t = df1['Travelers']
+plt.pie(t, labels=d)
+plt.title('Top 5 Destinations')
+plt.show()
+
+# Scatter Plot:
+x = df['Travelers']
+y = df['Revenue'] * 100
+plt.scatter(x,y)
+plt.xlabel('Travelers')
+plt.ylabel('Revenue')
+plt.title('Revenue vs Travelers')
+for i in range(len(df)):
+    plt.annotate(df['Month'][i], (x[i], y[i]))
+plt.show()
